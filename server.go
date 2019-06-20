@@ -50,7 +50,7 @@ func (i *InMemoryPlayerStore) RecordWin(name string) {}
 
 func main() {
 	server := &PlayerServer{&InMemoryPlayerStore{}}
-	log.Panicln("Server started at: http://localhost:500")
+	log.Println("Server started at: http://localhost:500")
 	if err := http.ListenAndServe(":5000", server); err != nil {
 		log.Fatalf("could not listen on port 5000 %v", err)
 	}
