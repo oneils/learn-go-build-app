@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 )
 
@@ -38,12 +37,4 @@ func (p *PlayerServer) showScore(w http.ResponseWriter, player string) {
 func (p *PlayerServer) processWin(w http.ResponseWriter, player string) {
 	p.store.RecordWin(player)
 	w.WriteHeader(http.StatusAccepted)
-}
-
-func main() {
-	server := &PlayerServer{NewInMemoryPlayerStore()}
-	log.Println("Server started at: http://localhost:5000")
-	if err := http.ListenAndServe(":5000", server); err != nil {
-		log.Fatalf("could not listen on port 5000 %v", err)
-	}
 }
