@@ -107,8 +107,6 @@ func TestStoreWins(t *testing.T) {
 
 func TestLeague(t *testing.T) {
 
-	const jsonContentType = "application/json"
-
 	t.Run("it returns the league table as JSON", func(t *testing.T) {
 		wantedLeague := []Player{
 			{"Cleo", 32},

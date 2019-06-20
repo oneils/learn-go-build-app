@@ -22,17 +22,19 @@ type PlayerServer struct {
 	http.Handler
 }
 
+const jsonContentType = "application/json"
+
 func NewPlayerServer(store PlayerStore) *PlayerServer {
 	p := new(PlayerServer)
 
 	p.store = store
 
 	router := http.NewServeMux()
-
 	router.Handle("/league", http.HandlerFunc(p.leagueHandler))
 	router.Handle("/players/", http.HandlerFunc(p.playerHandler))
 
 	p.Handler = router
+
 	return p
 }
 
@@ -48,8 +50,9 @@ func (p *PlayerServer) playerHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (p *PlayerServer) leagueHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("content-type", "application/json")
 	json.NewEncoder(w).Encode(p.store.GetLeague())
+	w.Header().Set("content-type", jsonContentType)
+	w.WriteHeader(http.StatusOK)
 }
 
 func (p *PlayerServer) showScore(w http.ResponseWriter, player string) {
