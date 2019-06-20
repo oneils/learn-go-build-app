@@ -34,6 +34,7 @@ func TestGETPlayers(t *testing.T) {
 		want := "20"
 
 		assertResponseBody(t, got, want)
+		assertStatus(t, response.Code, http.StatusOK)
 	})
 
 	t.Run("return Floyd's score", func(t *testing.T) {
@@ -46,8 +47,28 @@ func TestGETPlayers(t *testing.T) {
 		want := "10"
 
 		assertResponseBody(t, got, want)
+		assertStatus(t, response.Code, http.StatusOK)
 
 	})
+
+	t.Run("returns 404 on missing players", func(t *testing.T) {
+		request := newScoreRequest("Unknown")
+		response := httptest.NewRecorder()
+
+		server.ServeHTTP(response, request)
+
+		got := response.Code
+
+		assertStatus(t, got, http.StatusNotFound)
+	})
+}
+
+func assertStatus(t *testing.T, got int, want int) {
+	t.Helper()
+
+	if got != want {
+		t.Errorf("did not get correct status, got %d, want %d", got, want)
+	}
 }
 
 func newScoreRequest(name string) *http.Request {
