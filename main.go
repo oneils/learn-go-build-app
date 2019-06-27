@@ -16,7 +16,7 @@ func main() {
 		log.Fatalf("Problem openning %s %v", dbFileName, err)
 	}
 
-	store := &FileSystemPlayerStore{db}
+	store := NewFileSystemPlayerStore(db)
 	server := NewPlayerServer(store)
 
 	log.Println("Server started at: http://localhost:5000")
