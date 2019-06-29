@@ -4,24 +4,18 @@ import (
 	"github.com/oneils/go-project-example"
 	"log"
 	"net/http"
-	"os"
 )
 
 const dbFileName = "game.db.json"
 
 func main() {
-
-	db, err := os.OpenFile(dbFileName, os.O_RDWR|os.O_CREATE, 0666)
-
-	if err != nil {
-		log.Fatalf("Problem openning %s %v", dbFileName, err)
-	}
-
-	store, err := poker.NewFileSystemPlayerStore(db)
+	store, close, err := poker.FileSystemPlayerStoreFromFile(dbFileName)
 
 	if err != nil {
-		log.Fatalf("problem creating file system player store, %v ", err)
+		log.Fatal(err)
 	}
+	defer close()
+
 	server := poker.NewPlayerServer(store)
 
 	log.Println("Server started at: http://localhost:5000")
