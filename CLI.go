@@ -13,10 +13,6 @@ type CLI struct {
 	alerter     BlindAlerter
 }
 
-type BlindAlerter interface {
-	ScheduleAlertAt(duration time.Duration, amount int)
-}
-
 func (cli *CLI) PlayPoker() {
 	cli.scheduleBlindAlerts()
 
